@@ -136,4 +136,3 @@ def input_rutine():
     
     return(dem_path_folder,range, v_min, v_max)
 
-# Dodaj, da se izbrišejo iz arraya non values in -9999 values. Nato se izračuna povprečno vrednost array nakar se nonvalues zamenja z to povprečno vrednostjo
