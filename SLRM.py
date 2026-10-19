@@ -32,6 +32,16 @@ def naredi_slrm(dem_path_fajli, range, vmin, vmax, dem_path_folder):
 
     print("")
     print(f"Obdelujem: {ime_fajla}")
+
+    dem=dem.astype(float)
+
+    dem[dem == -9999]=np.nan
+
+    povprecna_vrednost=np.nanmean(dem)
+
+    dem[np.isnan(dem)]=povprecna_vrednost
+
+
     izravnan_dem=gaussian_filter(dem,float(range))
 
     slrm=dem-izravnan_dem
@@ -126,3 +136,4 @@ def input_rutine():
     
     return(dem_path_folder,range, v_min, v_max)
 
+# Dodaj, da se izbrišejo iz arraya non values in -9999 values. Nato se izračuna povprečno vrednost array nakar se nonvalues zamenja z to povprečno vrednostjo
