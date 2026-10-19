@@ -32,6 +32,10 @@ The program asks for:
 
 To convert a radius from meters to pixels, divide it by the DEM resolution (e.g. 20 m on a 0.5 m DEM = 40 pixels).
 
+### Disabling the stretch
+
+To turn off clipping, enter `-10` as the **min** and `10` as the **max** value when prompted. With these values the input is left unchanged.
+
 ## Output
 
 Results are saved to `Rezultati_SLRM/SLRM_<name>.tif` inside the input folder. Existing files with the same name are overwritten.
