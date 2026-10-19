@@ -39,7 +39,8 @@ Results are saved to `Rezultati_SLRM/SLRM_<name>.tif` inside the input folder. E
 ## Notes
 
 - Use DEMs in a projected coordinate system (e.g. EPSG:3794) so pixels correspond to meters.
-- Only the first band is processed, and NoData values are not masked.
+- Only the first band is processed
+- NoData values (`NaN` and `-9999`) are filled with the DEM's mean elevation.
 
 ## License
 
