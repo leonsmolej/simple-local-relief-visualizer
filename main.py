@@ -1,7 +1,5 @@
-from SLRM import glavna_rutina, input_rutine
+from SLRM import SLRM_glavna_rutina
 
 if __name__=="__main__":
     
-    input_func=input_rutine()
-
-    glavna_rutina(*input_func)
+    SLRM_glavna_rutina()

@@ -59,26 +59,18 @@ def naredi_slrm(dem_path_fajli, range, vmin, vmax, dem_path_folder):
 
 
 
-def glavna_rutina(dem_path_folder, pix_range, v_min, v_max):
-    dem_fajli_path=dobi_pathe_fajlov(dem_path_folder)
-    for i in dem_fajli_path:
-        naredi_slrm(i,pix_range,v_min,v_max, dem_path_folder)
-    print("")
-    print(f"Končal. Rezultati so v mapi {dem_path_folder}/Rezultati_SLRM")
-    print("")
-
-
-
 def input_rutine():
 
-    dem_path_folder=input("Vnesi pot do mape z DEM-i: ")
+    parametri={}
+
+    parametri["dem_path_folder"]=input("Vnesi pot do mape z DEM-i: ")
     print("")
 
 
     while True:
-        range=input("Vnesi radij za Gaussov filter v pikslih. \n(za manjše strukture priporočljivo 20, za večje 40, odvisno sicer tudi od resolucije DEM-a): ")
+        parametri["range"]=input("Vnesi radij za Gaussov filter v pikslih. \n(za manjše strukture priporočljivo 20, za večje 40, odvisno sicer tudi od resolucije DEM-a): ")
         try:
-            if 0<= float(range) <=500:
+            if 0<= float(parametri["range"]) <=500:
                 break
             else:
                 print()
@@ -96,9 +88,9 @@ def input_rutine():
 
 
     while True:
-        v_min=input("Vnesi minimalno vrednost za raztegnitev vrednosti pri vizualizaciji. \n(priporočljivo -1.5: ").replace(",",".")
+        parametri["v_min"]=input("Vnesi minimalno vrednost za raztegnitev vrednosti pri vizualizaciji. \n(priporočljivo -1.5: ").replace(",",".")
         try:
-            if -10<= float(v_min) <= 0:
+            if -10<= float(parametri["v_min"]) <= 0:
                 break
             else:
                 print()
@@ -116,9 +108,9 @@ def input_rutine():
 
 
     while True:
-        v_max=input("Vnesi maksimalno vrednost za raztegnitev vrednosti pri vizualizaciji. \n(priporočljivo 1.5: ").replace(",",".")
+        parametri["v_max"]=input("Vnesi maksimalno vrednost za raztegnitev vrednosti pri vizualizaciji. \n(priporočljivo 1.5: ").replace(",",".")
         try:
-            if 0<= float(v_max) <=10:
+            if 0<= float(parametri["v_max"]) <=10:
                 break
             else:
                 print()
@@ -134,5 +126,14 @@ def input_rutine():
             print()
     print("")
     
-    return(dem_path_folder,range, v_min, v_max)
+    return(parametri)
 
+
+def SLRM_glavna_rutina():
+    parametri=input_rutine()
+    dem_fajli_path=dobi_pathe_fajlov(parametri["dem_path_folder"])
+    for i in dem_fajli_path:
+        naredi_slrm(i,parametri["range"],parametri["v_min"],parametri["v_max"], parametri["dem_path_folder"])
+    print("")
+    print(f"Končal. Rezultati so v mapi {parametri["dem_path_folder"]}/Rezultati_SLRM")
+    print("")
