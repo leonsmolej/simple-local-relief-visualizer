@@ -16,7 +16,7 @@ def dobi_pathe_fajlov(dem_path_folder):
 
 
 
-def naredi_slrm(dem_path_fajli, range, vmin, vmax, dem_path_folder):
+def naredi_slrm(dem_path_fajli, radij, vmin, vmax, dem_path_folder):
 
     ime_fajla=os.path.basename(dem_path_fajli)
 
@@ -26,14 +26,17 @@ def naredi_slrm(dem_path_fajli, range, vmin, vmax, dem_path_folder):
         dem=src.read(1)
         #print(src.height)
         #print(src.width)
-        vel_celice=src.res[0]
+        #vel_celice=src.res[0]
         #print(vel_celice)
         meta=src.meta.copy()
+        no_data=src.nodata
 
     print("")
     print(f"Obdelujem: {ime_fajla}")
 
     dem=dem.astype(float)
+
+    dem[dem == no_data] = np.nan
 
     dem[dem == -9999]=np.nan
 
@@ -42,7 +45,7 @@ def naredi_slrm(dem_path_fajli, range, vmin, vmax, dem_path_folder):
     dem[np.isnan(dem)]=povprecna_vrednost
 
 
-    izravnan_dem=gaussian_filter(dem,float(range))
+    izravnan_dem=gaussian_filter(dem,float(radij))
 
     slrm=dem-izravnan_dem
 
@@ -68,9 +71,9 @@ def input_rutine():
 
 
     while True:
-        parametri["range"]=input("Vnesi radij za Gaussov filter v pikslih. \n(za manjše strukture priporočljivo 20, za večje 40, odvisno sicer tudi od resolucije DEM-a): ")
+        parametri["radij"]=input("Vnesi radij za Gaussov filter v pikslih. \n(za manjše strukture priporočljivo 20, za večje 40, odvisno sicer tudi od resolucije DEM-a): ")
         try:
-            if 0<= float(parametri["range"]) <=500:
+            if 0<= float(parametri["radij"]) <=500:
                 break
             else:
                 print()
@@ -133,7 +136,8 @@ def SLRM_glavna_rutina():
     parametri=input_rutine()
     dem_fajli_path=dobi_pathe_fajlov(parametri["dem_path_folder"])
     for i in dem_fajli_path:
-        naredi_slrm(i,parametri["range"],parametri["v_min"],parametri["v_max"], parametri["dem_path_folder"])
+        naredi_slrm(i,parametri["radij"],parametri["v_min"],parametri["v_max"], parametri["dem_path_folder"])
     print("")
-    print(f"Končal. Rezultati so v mapi {parametri["dem_path_folder"]}/Rezultati_SLRM")
+    dem_pot_mapa=parametri["dem_path_folder"]
+    print(f"Končal. Rezultati so v mapi {dem_pot_mapa}/Rezultati_SLRM")
     print("")
